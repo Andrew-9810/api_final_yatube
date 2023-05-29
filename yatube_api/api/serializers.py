@@ -41,3 +41,4 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ('id', 'user', 'following')
+        read_only_fields = ('user',)
