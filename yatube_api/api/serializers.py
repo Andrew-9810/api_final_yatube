@@ -2,11 +2,14 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
 
-from posts.models import Comment, Post
+from posts.models import Comment, Post, Group, Follow
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(slug_field='username', read_only=True)
+    author = SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
 
     class Meta:
         fields = '__all__'
@@ -21,3 +24,20 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Comment
+        read_only_fields = ('post', )
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    """Сериализатор для обработки данных группы."""
+
+    class Meta:
+        model = Group
+        fields = ('id', 'title', 'slug', 'description')
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    """Сериализатор для обработки данных подписок."""
+
+    class Meta:
+        model = Follow
+        fields = ('id', 'user', 'following')
