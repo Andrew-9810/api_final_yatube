@@ -4,7 +4,6 @@ from rest_framework import filters, mixins
 from rest_framework.pagination import LimitOffsetPagination
 
 from django.shortcuts import get_object_or_404
-
 from api.serializers import PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer
 from api.permission import IsOwnerOrReadOnly
 from posts.models import Group, Post, Follow
@@ -49,7 +48,7 @@ class FollowViewSet(mixins.CreateModelMixin,
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = (IsAuthenticated, IsAuthenticated, )
-    filter_backends = filters.SearchFilter
+    filter_backends = (filters.SearchFilter,)
     search_fields = ('user__username', 'following__username')
 
     def get_queryset(self):

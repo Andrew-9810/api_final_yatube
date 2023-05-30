@@ -30,6 +30,9 @@ class Post(models.Model):
     def __str__(self):
         return self.text
 
+    class Meta:
+        ordering = ['pub_date', 'id']
+
 
 class Comment(models.Model):
     """Модель Comment для хранения комментариев"""
@@ -42,7 +45,7 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
 
-class Follow (models.Model):
+class Follow(models.Model):
     """Модель Follow подписки на автора"""
     user = models.ForeignKey(
         User,
