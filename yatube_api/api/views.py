@@ -1,10 +1,13 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly
+)
 from rest_framework import filters, mixins
 from rest_framework.pagination import LimitOffsetPagination
 
 from django.shortcuts import get_object_or_404
-from api.serializers import PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer
+from api import serializers
 from api.permission import IsOwnerOrReadOnly
 from posts.models import Group, Post, Follow
 
@@ -12,7 +15,7 @@ from posts.models import Group, Post, Follow
 class PostViewSet(viewsets.ModelViewSet):
     """Класс-представления для обработки данных поста."""
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = serializers.PostSerializer
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     pagination_class = LimitOffsetPagination
 
@@ -23,12 +26,12 @@ class PostViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """Класс-представления для обработки данных группы."""
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+    serializer_class = serializers.GroupSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     """Класс-представления для обработки данных комментария."""
-    serializer_class = CommentSerializer
+    serializer_class = serializers.CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
     def get_queryset(self):
@@ -46,7 +49,7 @@ class FollowViewSet(mixins.CreateModelMixin,
                     viewsets.GenericViewSet):
     """Класс-представления для обработки данных подписчиков."""
     queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
+    serializer_class = serializers.FollowSerializer
     permission_classes = (IsAuthenticated, IsAuthenticated, )
     filter_backends = (filters.SearchFilter,)
     search_fields = ('user__username', 'following__username')
