@@ -42,7 +42,7 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
-## Состояние тестовой базы данных:
+## База данных(пример):
 
 Таблица user
 |id|password |last_login |is_siperuser|usermame|last_name|email         |is_staff|is_active|date_joined               |first_name|
@@ -85,7 +85,8 @@ python3 manage.py runserver
 ## Примеры запросов к API
 ### Получение публикаций
 ```
-GET /api/v1/posts/
+GET запрос
+/api/v1/posts/
 ```
 
 ### Создание публикации
