@@ -84,8 +84,9 @@ python3 manage.py runserver
 
 ## Примеры запросов к API
 ### Получение публикаций
+
+####GET запрос
 ```
-GET запрос
 /api/v1/posts/
 ```
 
