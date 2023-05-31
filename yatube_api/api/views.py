@@ -32,7 +32,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     """Класс-представления для обработки данных комментария."""
     serializer_class = serializers.CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def get_queryset(self):
         post_id = self.kwargs.get("post_id")
@@ -44,13 +44,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-class FollowViewSet(mixins.CreateModelMixin,
-                    mixins.ListModelMixin,
-                    viewsets.GenericViewSet):
+class FollowViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet):
     """Класс-представления для обработки данных подписчиков."""
-    queryset = Follow.objects.all()
     serializer_class = serializers.FollowSerializer
-    permission_classes = (IsAuthenticated, IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
     filter_backends = (filters.SearchFilter,)
     search_fields = ('user__username', 'following__username')
 

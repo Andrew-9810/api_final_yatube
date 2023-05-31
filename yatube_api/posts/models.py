@@ -18,10 +18,10 @@ class Post(models.Model):
     """Модель Post для хранения постов"""
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
-    group = models.ForeignKey(Group, blank=True, null=True,
-                              on_delete=models.SET_NULL, verbose_name='Группа',
-                              help_text='Выберите группу'
-                              )
+    group = models.ForeignKey(
+        Group, blank=True, null=True,
+        on_delete=models.SET_NULL, verbose_name='Группа',
+        help_text='Выберите группу')
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts')
     image = models.ImageField(
