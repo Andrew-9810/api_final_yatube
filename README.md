@@ -81,7 +81,7 @@ python3 manage.py runserver
 |1 |2           |3      |
 |2 |3           |2      |
 
-----------------------------------------------------------------------------
+
 ## Примеры запросов к API
 
 ### Получение токена (авторизация)
@@ -106,9 +106,45 @@ api/v1/jwt/create/
 }
 ```
 
+### Обновление токена (токен должен обновляться 1 раз в сутки)
+
+#### POST запрос
+Обязательные поля: refresh.
+```
+api/v1/jwt/refresh/
+```
+##### Тело запроса
+```
+{
+    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTY3NTU4NiwianRpIjoiNmViZjUwYWFlZTU3NDZkZWI1ZDJmYjA0NDQ0YmMwZWQiLCJ1c2VyX2lkIjoxfQ.QJOEmJypCB8tnAzjeXG1mXhZ4b2xpoB5g_g9SrTsqOU"
+}
+```
+#### Ответ от сервера
+```
+{
+    "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Njc2MjEwLCJqdGkiOiI0YTJjYWZhYzcyNGI0MWI5OTUzMzcwMTE5Nzc0MGZjNiIsInVzZXJfaWQiOjF9.Gu6r28DTA4ld9LVcQJeN1seTC-5PLvblY9uhqsQJ40k"
+}
+```
 
 
+### Проверка токена (проверяет токен на актуальность)
 
+#### POST запрос
+Обязательные поля: token.
+```
+api/v1/jwt/verify/
+```
+##### Тело запроса
+```
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Njc2MjEwLCJqdGkiOiI0YTJjYWZhYzcyNGI0MWI5OTUzMzcwMTE5Nzc0MGZjNiIsInVzZXJfaWQiOjF9.Gu6r28DTA4ld9LVcQJeN1seTC-5PLvblY9uhqsQJ40k"
+}
+```
+#### Ответ от сервера
+```
+{}
+```
+----------------------------------------------------------------------------
 
 ### Получение публикаций
 
@@ -207,22 +243,76 @@ api/v1/posts/?limit=3&offset=2
 #### POST запрос
 ##### Анонимные запросы запрещены (пройдите авторизацию)
 Обязательные поля: text
+В разделе **Получение токена (авторизация)** прошли авторизацию от имениавтора leo, далее все созданные нами посты будут создаваться от имени автора leo.  
 ```
 api/v1/posts/
 ```
 ##### Тело запроса
 ```
-api/v1/posts/
+{
+    "text": "Лучше знать немного истинно хорошего и нужного, чем очень много посредственного и ненужного."
+}
+```
+#### Ответ от сервера
+```
+{
+    "id": 6,
+    "author": "leo",
+    "text": "Лучше знать немного истинно хорошего и нужного, чем очень много посредственного и ненужного.",
+    "pub_date": "2023-06-01T03:42:53.128449Z",
+    "image": null,
+    "group": null
+}
+```
+
+### Получение публикации
+
+#### GET запрос
+Получим пость с id равный 2.
+```
+/api/v1/posts/2/
 ```
 
 #### Ответ от сервера
 ```
 {
-    text (required): string (текст публикации)
-    image: string or null <binary>
-    group: integer or null (id сообщества)
+    "id": 2,
+    "author": "russia",
+    "text": "Не имей сто рублей, а имей сто друзей.",
+    "pub_date": "2023-05-29T02:53:10.886509Z",
+    "image": null,
+    "group": null
 }
 ```
+
+### Обновление публикации
+
+#### PUT запрос
+##### Анонимные запросы запрещены (пройдите авторизацию)
+Обязательные поля: text.
+В разделе **Получение токена (авторизация)** прошли авторизацию от имениавтора leo, далее мы можем редактировать посты созданные только от имени автора leo.  
+```
+api/v1/posts/
+```
+##### Тело запроса
+```
+{
+    "text": "Если нет сил гореть и разливать свет, то хоть не засти его. Решил обновить пост!"
+}
+```
+#### Ответ от сервера
+```
+{
+    "id": 5,
+    "author": "leo",
+    "text": "Если нет сил гореть и разливать свет, то хоть не засти его. Решил обновить пост!",
+    "pub_date": "2023-05-29T02:53:10.886509Z",
+    "image": null,
+    "group": 1
+}
+```
+
+---------------------------------------------------------------------------------------------------------------
 
 ### Подписки
 ```
