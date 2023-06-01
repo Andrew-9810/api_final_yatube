@@ -81,8 +81,35 @@ python3 manage.py runserver
 |1 |2           |3      |
 |2 |3           |2      |
 
-
+----------------------------------------------------------------------------
 ## Примеры запросов к API
+
+### Получение токена (авторизация)
+
+#### POST запрос
+Обязательные поля: username; password.
+```
+api/v1/jwt/create/
+```
+##### Тело запроса
+```
+{
+    "username": "leo",
+    "password": "adm"
+}
+```
+#### Ответ от сервера
+```
+{
+    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTY3NTU4NiwianRpIjoiNmViZjUwYWFlZTU3NDZkZWI1ZDJmYjA0NDQ0YmMwZWQiLCJ1c2VyX2lkIjoxfQ.QJOEmJypCB8tnAzjeXG1mXhZ4b2xpoB5g_g9SrTsqOU",
+    "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Njc1NTg2LCJqdGkiOiJkZDliMWU3YThiOGY0OGY5OTBmOTRkNTI4YWMzZTZhZSIsInVzZXJfaWQiOjF9.4WFuG-ZvAF-ePOMRPBHvgmnaEgfMj8vU9cLLJo27oUY"
+}
+```
+
+
+
+
+
 ### Получение публикаций
 
 #### GET запрос
@@ -176,10 +203,19 @@ api/v1/posts/?limit=3&offset=2
 
 
 ### Создание публикации
+
+#### POST запрос
+##### Анонимные запросы запрещены (пройдите авторизацию)
+Обязательные поля: text
 ```
-POST /api/v1/posts/
+api/v1/posts/
 ```
-Request Body schema
+##### Тело запроса
+```
+api/v1/posts/
+```
+
+#### Ответ от сервера
 ```
 {
     text (required): string (текст публикации)
