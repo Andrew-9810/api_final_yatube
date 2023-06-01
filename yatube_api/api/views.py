@@ -9,7 +9,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from django.shortcuts import get_object_or_404
 from api import serializers
 from api.permission import IsOwnerOrReadOnly
-from posts.models import Group, Post, Follow
+from posts.models import Group, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -47,7 +47,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 class FollowViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
-    viewsets.GenericViewSet):
+    viewsets.GenericViewSet
+):
     """Класс-представления для обработки данных подписчиков."""
     serializer_class = serializers.FollowSerializer
     permission_classes = (IsAuthenticated, )
