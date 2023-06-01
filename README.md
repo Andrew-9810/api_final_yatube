@@ -87,7 +87,7 @@ python3 manage.py runserver
 ### Получение токена (авторизация)
 
 #### POST запрос
-Обязательные поля: username; password.
+Обязательные поля: username; password (взяты из таблицы user).
 ```
 api/v1/jwt/create/
 ```
@@ -105,11 +105,13 @@ api/v1/jwt/create/
     "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Njc1NTg2LCJqdGkiOiJkZDliMWU3YThiOGY0OGY5OTBmOTRkNTI4YWMzZTZhZSIsInVzZXJfaWQiOjF9.4WFuG-ZvAF-ePOMRPBHvgmnaEgfMj8vU9cLLJo27oUY"
 }
 ```
+#### Статус код ответа от сервера 200 OK
+--------------------------------------------------------------
 
 ### Обновление токена (токен должен обновляться 1 раз в сутки)
 
 #### POST запрос
-Обязательные поля: refresh.
+Обязательные поля: refresh (взят из запроса на получение токена).
 ```
 api/v1/jwt/refresh/
 ```
@@ -125,12 +127,13 @@ api/v1/jwt/refresh/
     "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Njc2MjEwLCJqdGkiOiI0YTJjYWZhYzcyNGI0MWI5OTUzMzcwMTE5Nzc0MGZjNiIsInVzZXJfaWQiOjF9.Gu6r28DTA4ld9LVcQJeN1seTC-5PLvblY9uhqsQJ40k"
 }
 ```
-
+#### Статус код ответа от сервера 200 OK
+--------------------------------------------------------------
 
 ### Проверка токена (проверяет токен на актуальность)
 
 #### POST запрос
-Обязательные поля: token.
+Обязательные поля: token (взят из запроса на получение токена, token=access).
 ```
 api/v1/jwt/verify/
 ```
@@ -144,6 +147,7 @@ api/v1/jwt/verify/
 ```
 {}
 ```
+#### Статус код ответа от сервера 200 OK
 ----------------------------------------------------------------------------
 
 ### Получение публикаций
